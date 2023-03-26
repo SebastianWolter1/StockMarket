@@ -90,7 +90,7 @@ const DashboardInvestor = () => {
               <p>{stock.ticker}</p>
               <p>price: {quote?.c}$</p>
               <p>amount: {stock.amount}</p>
-              <p>total value: {quote?.c*stock.amount}</p>
+              <p>total value: {quote?.c*stock.amount}$</p>
               <button onClick={()=>fetch(stock.ticker)}>fetch</button>
               <button onClick={()=>sell(stock.name, stock.amount)}>Sell</button>
 
