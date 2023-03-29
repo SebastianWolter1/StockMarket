@@ -24,7 +24,7 @@ const Login = () => {
         const stocks = JSON.stringify(res.data.stocks);
         localStorage.setItem("stocks", stocks);
         localStorage.setItem("token", res.data.token);
-        console.log(stocks)
+        console.log(stocks);
         navigate("/dashboardinvestor");
       }
       if (res.data.role === "company") {
@@ -38,14 +38,14 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
-
-    
   };
 
   return (
     <>
       <div className="register-btn">
-        <button onClick={()=>navigate("/register")} className="toggler">Register</button>
+        <button onClick={() => navigate("/register")} className="toggler">
+          Register
+        </button>
       </div>
       <h1>Full Stock Universe</h1>
       <h3>The Fullstack Stock Market</h3>

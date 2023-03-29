@@ -1,5 +1,11 @@
 import express from "express";
-import { addStock, buyStock, getStocks, removeStock, sellStock } from "../controllers/stockcontroller.js";
+import {
+  addStock,
+  buyStock,
+  getStocks,
+  removeStock,
+  sellStock,
+} from "../controllers/stockcontroller.js";
 import authenticate from "../middleware/authenticate.js";
 import { roleBuy, roleSell } from "../middleware/roleAuth.js";
 
@@ -10,7 +16,6 @@ router.post("/addstock", authenticate, roleSell, addStock);
 router.post("/sellstock", authenticate, roleBuy, sellStock);
 router.post("/buystock", authenticate, roleBuy, buyStock);
 router.delete("/deletestock", authenticate, roleSell, removeStock);
-
 
 // router.get("/allstock", getStocks);
 // router.post("/addstock", addStock);

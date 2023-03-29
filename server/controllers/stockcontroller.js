@@ -47,13 +47,10 @@ const buyStock = async (req, res) => {
   try {
     const investor = await User.findById(req.user.userId);
 
-    
     const existingStock = investor.stocks.find((stock) => stock.name === name);
     if (existingStock) {
-     
       existingStock.amount += amount;
     } else {
-   
       const stock = new Stock({
         name,
         ticker,
@@ -67,7 +64,7 @@ const buyStock = async (req, res) => {
     const selectedStock = marketplace.market.find(
       (stock) => stock.name === name
     );
-    if(!selectedStock) return res.status(400).json({ msg: "Stock not found" });
+    if (!selectedStock) return res.status(400).json({ msg: "Stock not found" });
     if (selectedStock.amount < amount)
       return res.status(400).json({ msg: "Not enough stocks in the market" });
     selectedStock.amount -= amount;
@@ -96,30 +93,31 @@ const sellStock = async (req, res) => {
 
     const investor = await User.findById(req.user.userId);
     const selectedStock = investor.stocks.find((stock) => stock.name === name);
-    console.log(selectedStock)
-    if(!selectedStock) return res.status(400).json({ msg: "You don't own this stock" });
+    console.log(selectedStock);
+    if (!selectedStock)
+      return res.status(400).json({ msg: "You don't own this stock" });
     if (selectedStock.amount < amount)
       return res
         .status(400)
         .json({ msg: "Not enough stocks in your portfolio" });
 
-        const existingStock = await Marketplace.findOne();
-        console.log("exisitngstock", existingStock)
-        if (existingStock) {
-          console.log("1")
-          const stockInMarket = existingStock.market.find((stock) => stock.name === name);
-          console.log("stock", stockInMarket)
-          stockInMarket.amount += amount;
-          await Marketplace.updateOne({ $set: { market: existingStock.market  } });
-
-        } else {
-          console.log("2")
-          await Marketplace.updateOne({ $push: { market: stock } });
-        }
-
+    const existingStock = await Marketplace.findOne();
+    console.log("exisitngstock", existingStock);
+    if (existingStock) {
+      console.log("1");
+      const stockInMarket = existingStock.market.find(
+        (stock) => stock.name === name
+      );
+      console.log("stock", stockInMarket);
+      stockInMarket.amount += amount;
+      await Marketplace.updateOne({ $set: { market: existingStock.market } });
+    } else {
+      console.log("2");
+      await Marketplace.updateOne({ $push: { market: stock } });
+    }
 
     selectedStock.amount -= amount;
-    if(selectedStock.amount === 0){
+    if (selectedStock.amount === 0) {
       const newStocks = investor.stocks.filter((stock) => stock.name !== name);
       investor.stocks = newStocks;
     }

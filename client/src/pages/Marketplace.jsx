@@ -86,8 +86,9 @@ const Marketplace = () => {
               Logout
             </button>
           </div>
-        <button onClick={()=>navigate("/dashboardinvestor")}>Dashboard</button>
-
+          <button onClick={() => navigate("/dashboardinvestor")}>
+            Dashboard
+          </button>
         </div>
         <ul>
           {stocks.map((stock) => (

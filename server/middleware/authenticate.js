@@ -8,8 +8,8 @@ const authenticate = async (req, res, next) => {
     }
     const decoded = jwt.verify(token, process.env.SECRETKEY);
     req.user = decoded;
-    console.log(req.user)
-    console.log(token)
+    console.log(req.user);
+    console.log(token);
     next();
   } catch (error) {
     console.log(error);

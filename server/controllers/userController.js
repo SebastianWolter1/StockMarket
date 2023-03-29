@@ -25,7 +25,7 @@ const register = async (req, res) => {
       email,
       password,
       role,
-      stocks
+      stocks,
     });
     await user.save();
     res.status(201).json({
@@ -40,42 +40,45 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const userExists = await User.findOne({ email });
-    console.log(userExists)
+    console.log(userExists);
     if (!userExists) {
       return res.status(400).json({ msg: "user not found" });
     }
     const isMatch = await userExists.comparePassword(
       password,
       userExists.password
-      );
-      console.log(password, userExists.password)
-      console.log(isMatch)
+    );
+    console.log(password, userExists.password);
+    console.log(isMatch);
     if (!isMatch) {
       return res.status(400).json({ msg: "password not correct" });
     }
-    const payload = {userId : userExists._id}
+    const payload = { userId: userExists._id };
     const secretKey = process.env.SECRETKEY;
-    const token = jwt.sign(payload, secretKey, {expiresIn: "11h"});
-    
-    res.cookie("token", token, {httpOnly: true, maxAge : 3600000}) 
+    const token = jwt.sign(payload, secretKey, { expiresIn: "11h" });
 
-    res.json({msg: "login success", role: userExists.role, stocks: userExists.stocks, token: token})
+    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+
+    res.json({
+      msg: "login success",
+      role: userExists.role,
+      stocks: userExists.stocks,
+      token: token,
+    });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ msg: "server error" });
   }
 };
 
-
 const logoutUser = async (req, res) => {
   try {
-    res.clearCookie("token")
-    res.json({msg: "logout success"})
+    res.clearCookie("token");
+    res.json({ msg: "logout success" });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ msg: "server error" });
   }
-}
+};
 
-
-export { register, getUsers, loginUser, logoutUser};
+export { register, getUsers, loginUser, logoutUser };
